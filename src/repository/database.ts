@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 export async function connect() {
    try {
       if (!process.env.DBHOST) {
-         throw new Error('DBHOST env variable is not defined');
+         throw new Error('DBHOST environment variable is not defined');
       }
 
       await mongoose.connect(process.env.DBHOST);
@@ -18,5 +18,15 @@ export async function connect() {
    }
    catch (error) {
       console.log('Error connecting to the database. Error: ', error);
+   }
+}
+
+export async function disconnect() {
+   try {
+      await mongoose.disconnect();
+      console.log('Database connection closed');
+   }
+   catch (error) {
+      console.log('Error closing database connection. Error: ', error);
    }
 }
