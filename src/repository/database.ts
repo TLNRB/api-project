@@ -1,5 +1,16 @@
 import mongoose from 'mongoose';
 
+export async function testConnection() {
+   try {
+      await connect();
+      await disconnect();
+      console.log('Database connection test was successful (connect + disconnect)');
+   }
+   catch (error) {
+      console.log('Error testing database connection. Error: ', error);
+   }
+}
+
 export async function connect() {
    try {
       if (!process.env.DBHOST) {
