@@ -4,7 +4,7 @@ export interface Game extends Document {
    id: string,
    title: string,
    description: string,
-   image: string,
+   imageURL: string,
    price: number,
    rating: number,
    platform: string,
