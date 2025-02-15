@@ -38,3 +38,21 @@ export async function getAllGames(req: Request, res: Response) {
       await disconnect();
    }
 }
+
+// Get a single game by ID
+export async function getGameById(req: Request, res: Response) {
+   try {
+      await connect();
+
+      const id = req.params.id;
+      const result = await gameModel.findById({ _id: id});
+
+      res.status(200).send(result);
+   }
+   catch (error) {
+      res.status(500).send("Error retrieving game by id. Error: " + error);
+   }
+   finally {
+      await disconnect();
+   }
+}
