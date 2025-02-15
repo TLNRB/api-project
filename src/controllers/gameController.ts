@@ -47,7 +47,12 @@ export async function getGameById(req: Request, res: Response) {
       const id = req.params.id;
       const result = await gameModel.find({ _id: id });
 
-      res.status(200).send(result);
+      if (result.length === 0) {
+         res.status(404).send("Game not found by id: " + id);
+      }
+      else {
+         res.status(200).send(result);
+      }
    }
    catch (error) {
       res.status(500).send("Error retrieving game by id. Error: " + error);
@@ -73,6 +78,28 @@ export async function updateGameById(req: Request, res: Response) {
    }
    catch (error) {
       res.status(500).send("Error updating game by id. Error: " + error);
+   }
+   finally {
+      await disconnect();
+   }
+}
+
+export async function deleteGameById(req: Request, res: Response) {
+   try {
+      await connect();
+
+      const id = req.params.id;
+      const result = await gameModel.findByIdAndDelete(id);
+
+      if (!result) {
+         res.status(404).send("Game not found by id: " + id);
+      }
+      else {
+         res.status(200).send("Game deleted successfully");
+      }
+   }
+   catch (error) {
+      res.status(500).send("Error deleting game by id. Error: " + error);
    }
    finally {
       await disconnect();
