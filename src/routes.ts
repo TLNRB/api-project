@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
-import { createGame } from './controllers/gameController';
+import { createGame, getAllGames } from './controllers/gameController';
+import { create } from 'domain';
 
 const router: Router = Router();
 
@@ -8,5 +9,7 @@ router.get('/', (req: Request, res: Response) => {
 });
 
 router.post('/games', createGame);
+
+router.get('/games', getAllGames);
 
 export default router;

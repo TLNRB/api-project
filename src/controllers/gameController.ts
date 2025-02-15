@@ -21,3 +21,20 @@ export async function createGame(req: Request, res: Response): Promise<void> {
       await disconnect();
    }
 }
+
+// Get all games
+export async function getAllGames(req: Request, res: Response) {
+   try {
+      await connect();
+
+      const result = await gameModel.find({});
+
+      res.status(201).send(result);
+   }
+   catch (error) {
+      res.status(500).send("Error retrieving all games. Error: " + error);
+   }
+   finally {
+      await disconnect();
+   }
+}
