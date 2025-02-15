@@ -10,6 +10,9 @@ dotenvFlow.config();
 const app: Application = express();
 
 export function startServer() {
+   // JSON body parser
+   app.use(express.json());
+
    // Binding routes to the app
    app.use('/api', routes);
 

@@ -14,8 +14,8 @@ export async function createGame(req: Request, res: Response): Promise<void> {
 
       res.status(201).send(result);
    }
-   catch {
-      res.status(500).send("Error creating a new game");
+   catch (error) {
+      res.status(500).send("Error creating a new game. Error: " + error);
    }
    finally {
       await disconnect();
