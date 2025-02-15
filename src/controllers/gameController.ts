@@ -56,3 +56,25 @@ export async function getGameById(req: Request, res: Response) {
       await disconnect();
    }
 }
+
+export async function updateGameById(req: Request, res: Response) {
+   try {
+      await connect();
+
+      const id = req.params.id;
+      const result = await gameModel.findByIdAndUpdate(id, req.body);
+
+      if (!result) {
+         res.status(404).send("Game not found by id: " + id);
+      }
+      else {
+         res.status(200).send("Game updated successfully");
+      }
+   }
+   catch (error) {
+      res.status(500).send("Error updating game by id. Error: " + error);
+   }
+   finally {
+      await disconnect();
+   }
+}
