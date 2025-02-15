@@ -45,7 +45,7 @@ export async function getGameById(req: Request, res: Response) {
       await connect();
 
       const id = req.params.id;
-      const result = await gameModel.findById({ _id: id});
+      const result = await gameModel.find({ _id: id });
 
       res.status(200).send(result);
    }
