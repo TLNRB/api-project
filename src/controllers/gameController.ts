@@ -29,7 +29,7 @@ export async function getAllGames(req: Request, res: Response) {
 
       const result = await gameModel.find({});
 
-      res.status(201).send(result);
+      res.status(200).send(result);
    }
    catch (error) {
       res.status(500).send("Error retrieving all games. Error: " + error);
