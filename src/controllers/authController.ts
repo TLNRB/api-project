@@ -65,7 +65,7 @@ export async function loginUser(req: Request, res: Response) {
       // Find the user with this email
       await connect();
 
-      const user: User | null = await userModel.findOne({ email: req.body.emal });
+      const user: User | null = await userModel.findOne({ email: req.body.email });
 
       if (!user) {
          res.status(400).json({ error: "User is not found with this email." });
