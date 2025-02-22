@@ -10,13 +10,13 @@ router.get('/', (req: Request, res: Response) => {
 });
 
 // Create a new game
-router.post('/games', createGame);
+router.post('/games', verifyToken, createGame);
 // Get all games
 router.get('/games', getAllGames);
 // Get a game by ID
 router.get('/games/:id', getGameById);
 // Update a game by ID
-router.put('/games/:id', updateGameById);
+router.put('/games/:id', verifyToken, updateGameById);
 // Delete a game by ID
 router.delete('/games/:id', verifyToken, deleteGameById);
 
