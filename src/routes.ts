@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { createGame, getAllGames, getGameById, updateGameById, deleteGameById } from './controllers/gameController';
 import { create } from 'domain';
-import { registerUser } from './controllers/authController';
+import { loginUser, registerUser } from './controllers/authController';
 
 const router: Router = Router();
 
@@ -22,5 +22,6 @@ router.delete('/games/:id', deleteGameById);
 
 // Authentication
 router.post('/user/register', registerUser);
+router.post('/user/login', loginUser);
 
 export default router;
