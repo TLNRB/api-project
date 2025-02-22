@@ -104,6 +104,25 @@ export async function loginUser(req: Request, res: Response) {
    }
 }
 
+// Verify the token
+export function verifyToken(req: Request, res: Response, next: NextFunction) {
+   const token = req.header('auth-token');
+
+   if (!token) {
+      res.status(400).json({ error: "Access denied." });
+      return;
+   }
+
+   try {
+      jwt.verify(token, process.env.TOKEN_SECRET as string);
+
+      next();
+   }
+   catch (error) {
+      res.status(401).send("Invalid token.");
+   }
+}
+
 // Validate user registration data
 export function validateUserRegistrationData(data: User): ValidationResult {
    const schema = Joi.object({
