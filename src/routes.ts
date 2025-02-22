@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { createGame, getAllGames, getGameById, updateGameById, deleteGameById } from './controllers/gameController';
 import { create } from 'domain';
-import { loginUser, registerUser } from './controllers/authController';
+import { loginUser, registerUser, verifyToken } from './controllers/authController';
 
 const router: Router = Router();
 
@@ -18,7 +18,7 @@ router.get('/games/:id', getGameById);
 // Update a game by ID
 router.put('/games/:id', updateGameById);
 // Delete a game by ID
-router.delete('/games/:id', deleteGameById);
+router.delete('/games/:id', verifyToken, deleteGameById);
 
 // Authentication
 router.post('/user/register', registerUser);
