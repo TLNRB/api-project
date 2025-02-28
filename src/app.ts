@@ -1,7 +1,8 @@
-import express, { Application, Request, Response } from 'express';
-import routes from './routes';
+import express, { Application } from 'express';
 import dotenvFlow from 'dotenv-flow';
 import { testConnection } from './repository/database';
+import { setupDocs } from './util/documentation';
+import routes from './routes';
 import cors from 'cors';
 
 dotenvFlow.config();
@@ -27,6 +28,9 @@ export function startServer() {
 
    // Binding routes to the app
    app.use('/api', routes);
+
+   // Setting up swagger documentation
+   setupDocs(app);
 
    // Testing connection to the database
    testConnection();
