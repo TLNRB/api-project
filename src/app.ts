@@ -9,28 +9,17 @@ dotenvFlow.config();
 // Creating express application
 const app: Application = express();
 
-export function setupCors() {
-   app.use(
-      cors({
-         origin: "*", // Allow requests from any origin
-         methods: 'GET,HEAD,PUT,OPTIONS,PATCH,POST,DELETE',
-         allowedHeaders: ['auth-token', 'Origin', 'X-Requested-With', 'Content-Type', 'Accept'], // Allow specific headers
-         credentials: true,
-      })
-   );
-   // set the Access-Control-Allow-Origin header for preflight requests
-   /* app.options('*', (req: Request, res: Response) => {
-      res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,OPTIONS,PATCH,POST,DELETE');
-      res.header('Access-Control-Allow-Headers', 'auth-token, Origin, X-Requested-With, Content-Type, Accept');
-      // test for credentials
-      res.header('Access-Control-Allow-Credentials', 'true');
-      res.sendStatus(200);
-   }); */
+// Setting up CORS
+function setupCors() {
+   app.use(cors({
+      origin: '*',
+      methods: 'GET, POST, PUT, DELETE',
+      allowedHeaders: ['auth-token', 'Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
+      credentials: true
+   }))
 }
 
 export function startServer() {
-   // Setting up CORS
    setupCors();
 
    // JSON body parser
