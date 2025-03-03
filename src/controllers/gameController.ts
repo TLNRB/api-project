@@ -39,7 +39,7 @@ export function getGames(req: Request, res: Response) {
    }
 }
 
-// Get all games
+// Get all games 
 export async function getAllGames(req: Request, res: Response) {
    try {
       await connect();
