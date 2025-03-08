@@ -118,8 +118,8 @@ export function verifyToken(req: Request, res: Response, next: NextFunction) {
 
       next();
    }
-   catch (error) {
-      res.status(401).send("Invalid token.");
+   catch (err) {
+      res.status(401).send("Invalid token. Error: " + err);
    }
 }
 
