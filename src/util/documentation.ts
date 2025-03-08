@@ -16,6 +16,10 @@ export function setupDocs(app: Application) {
          {
             url: 'http://localhost:4000/api/',
             description: 'Local development server'
+         },
+         {
+            url: 'https://api-project-4z46.onrender.com/api/',
+            description: 'Production server'
          }
       ],
       components: {
