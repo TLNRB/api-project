@@ -18,7 +18,7 @@ const router: Router = Router();
  *         description: Server is up and running.
  */
 router.get('/', (req: Request, res: Response) => {
-   res.status(200).send('Hello there!');
+   res.status(200).send({ message: 'Hello there!' });
 });
 
 // Post routes
