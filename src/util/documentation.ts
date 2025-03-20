@@ -8,9 +8,9 @@ export function setupDocs(app: Application) {
    const swaggerDefinition = {
       openapi: '3.0.0',
       info: {
-         title: 'Title',
+         title: 'Games REST API',
          version: '1.0.0',
-         description: 'Description'
+         description: 'MongoDb, Express, Node.js, TypeScript REST API for games',
       },
       servers: [
          {
