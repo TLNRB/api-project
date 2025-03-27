@@ -51,6 +51,23 @@ router.post('/games', verifyToken, createGame); // Create a new game
 // Get routes
 /**
  * @swagger
+ * /start-cron:
+ *   get:
+ *     tags:
+ *       - Start Cron Jobs
+ *     summary: Starts the cron job that keep render alive
+ *     description: Starts the cron job that keep render alive
+ *     responses:
+ *       200:
+ *         description: Response from the cron job
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array               
+ */
+router.get('/start-cron', startCron);
+/**
+ * @swagger
  * /games:
  *   get:
  *     tags:
