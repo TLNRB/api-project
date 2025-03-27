@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { createGame, getGames, getGameById, updateGameById, deleteGameById } from './controllers/gameController';
 import { loginUser, registerUser, verifyToken } from './controllers/authController';
+import { startCron } from './controllers/devToolsController';
 
 const router: Router = Router();
 
