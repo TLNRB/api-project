@@ -21,7 +21,7 @@ jobs:
         with:
           fetch-depth: 0
       
-      - name: Use Node.js ${{  matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
         use: actions/setup-node@v4.1.0
         with:
           node-version: ${{ matrix.node-version }}
@@ -44,5 +44,5 @@ jobs:
       - name: Deploy to production
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
-          service-id: ${{ secrets.RENDER_SERVICE_ID }
+          service-id: ${{ secrets.RENDER_SERVICE_ID }}
           api-key: ${{ secrets.RENDER_API_KEY }}
