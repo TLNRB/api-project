@@ -12,6 +12,12 @@ export async function testConnection() {
 }
 
 export async function connect() {
+   // Check if we are already connected to the database
+   if (mongoose.connection.readyState >= 1) {
+      console.log('Already connected to the database.')
+      return
+   }
+
    try {
       if (!process.env.DBHOST) {
          throw new Error('DBHOST environment variable is not defined');
