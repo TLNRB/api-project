@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { createGame, getGames, getGameById, updateGameById, deleteGameById } from './controllers/gameController';
+import { createGame, getAllGames, getGameById, getGamesByQuery, updateGameById, deleteGameById } from './controllers/gameController';
 import { loginUser, registerUser, verifyToken } from './controllers/authController';
 import { startCron } from './controllers/devToolsController';
 
@@ -38,14 +38,14 @@ router.get('/', (req: Request, res: Response) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Game'
+ *             $ref: '#/components/schemas/GameUnpopulated'
  *     responses:
  *       201:
  *         description: Game created successfully.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Game'
+ *               $ref: '#/components/schemas/GameUnpopulated'
  */
 router.post('/games', verifyToken, createGame); // Create a new game
 
@@ -73,25 +73,17 @@ router.get('/start-cron', startCron);
  *   get:
  *     tags:
  *       - Game Routes
- *     summary: Get games based on optional query parameters (all games, game by title, games by platform)
+ *     summary: Get all games
  *     description: |
- *       Get all games if no parameter is provided, get games by title if a title is provided,
- *       or get games by platform if a platform is provided. 
- *       (Note: If both title and platform are provided, the API will return games by title only.
- *       Correct title and platform values are required, however, it is not case-sensitive.)
+ *       Get all games populated with user data for _createdBy if populate parameter is true, else user ID is returned for _createdBy.
  *     parameters:
- *       - name: title
+ *       - name: populate
  *         in: query
  *         required: false
- *         description: Title of the game to retrieve.
+ *         description: Populate the _createdBy field.
  *         schema:
- *           type: string
- *       - name: platform
- *         in: query
- *         required: false
- *         description: Platform of the games to retrieve.
- *         schema:
- *           type: string
+ *           type: boolean
+ *           default: false
  *     responses:
  *       200:
  *         description: Game(s) retrieved successfully.
@@ -100,9 +92,9 @@ router.get('/start-cron', startCron);
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Game'
+ *                 $ref: '#/components/schemas/GamePopulated'
  */
-router.get('/games', getGames); // Get all games, get game by title, get games by platform
+router.get('/games', getAllGames); // Get all games
 /**
  * @swagger
  * /games/{id}:
@@ -110,23 +102,71 @@ router.get('/games', getGames); // Get all games, get game by title, get games b
  *     tags:
  *       - Game Routes
  *     summary: Get a specific game
- *     description: Takes an Id and returns a game from the database based on that Id.
+ *     description: |
+ *       Takes an ID and returns a game from the database based on that ID. Populates the user if the `populate` parameter is true; otherwise, the ID is returned.
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         description: Id of the game to retrieve.
+ *         description: ID of the game to retrieve.
  *         schema:
  *           type: string
+ *       - name: populate
+ *         in: query
+ *         required: false
+ *         description: Populate the _createdBy field.
+ *         schema:
+ *           type: boolean
+ *           default: false
  *     responses:
  *       200:
  *         description: Game retrieved successfully.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Game'
+ *               $ref: '#/components/schemas/GamePopulated'
  */
 router.get('/games/:id', getGameById); // Get a game by Id
+/**
+ * @swagger
+ * /games/query:
+ *   get:
+ *     tags:
+ *       - Game Routes
+ *     summary: Get games by query
+ *     description: |
+ *       Get games based on a specific field and value. Populates the user if the `populate` parameter is true.
+ *     parameters:
+ *       - name: field
+ *         in: query
+ *         required: true
+ *         description: Field to query by.
+ *         schema:
+ *           type: string
+ *       - name: value
+ *         in: query
+ *         required: true
+ *         description: Value of the field.
+ *         schema:
+ *           type: string
+ *       - name: populate
+ *         in: query
+ *         required: false
+ *         description: Populate the _createdBy field.
+ *         schema:
+ *           type: boolean
+ *           default: false
+ *     responses:
+ *       200:
+ *         description: Game(s) retrieved successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/GamePopulated'
+ */
+router.get('/query/games', getGamesByQuery); // Get game(s) by query parameters
 
 // Put routes
 /**
@@ -151,14 +191,15 @@ router.get('/games/:id', getGameById); // Get a game by Id
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Game'
+ *             $ref: '#/components/schemas/GameUnpopulated'
  *     responses:
  *       200:
  *         description: Game updated successfully.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Game'
+ *               type: string
+ *               example: Game updated successfully.
  */
 router.put('/games/:id', verifyToken, updateGameById); // Update a game by Id
 
@@ -186,7 +227,8 @@ router.put('/games/:id', verifyToken, updateGameById); // Update a game by Id
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Game'
+ *               type: string
+ *               example: Game deleted successfully.
  */
 router.delete('/games/:id', verifyToken, deleteGameById); // Delete a game by Id
 

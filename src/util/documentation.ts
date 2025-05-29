@@ -31,7 +31,7 @@ export function setupDocs(app: Application) {
             }
          },
          schemas: {
-            Game: {
+            GameUnpopulated: {
                type: 'object',
                properties: {
                   title: { type: 'string' },
@@ -43,6 +43,20 @@ export function setupDocs(app: Application) {
                   genre: { type: 'string' },
                   releaseDate: { type: 'string' },
                   _createdBy: { type: 'string' }
+               }
+            },
+            GamePopulated: {
+               type: 'object',
+               properties: {
+                  title: { type: 'string' },
+                  description: { type: 'string' },
+                  imageURL: { type: 'string' },
+                  price: { type: 'number' },
+                  rating: { type: 'number' },
+                  platform: { type: 'string' },
+                  genre: { type: 'string' },
+                  releaseDate: { type: 'string' },
+                  _createdBy: { $ref: '#/components/schemas/User' }
                }
             },
             User: {
