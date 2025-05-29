@@ -10,7 +10,7 @@ const gameSchema = new Schema<Game>({
    platform: { type: String, required: true, min: 6, max: 255 },
    genre: { type: String, required: true, min: 6, max: 255 },
    releaseDate: { type: Date, required: true },
-   _createdBy: { type: String, ref: 'User', required: true }
+   _createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true }
 });
 
 export const gameModel = model<Game>('Game', gameSchema);

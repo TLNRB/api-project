@@ -1,7 +1,6 @@
-import { User } from './user';
+import { Document, Schema } from 'mongoose';
 
 export interface Game extends Document {
-   id: string,
    title: string,
    description: string,
    imageURL: string,
@@ -10,5 +9,5 @@ export interface Game extends Document {
    platform: string,
    genre: string,
    releaseDate: Date,
-   _createdBy: User['id'];
+   _createdBy: Schema.Types.ObjectId;
 }
