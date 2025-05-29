@@ -75,7 +75,7 @@ router.get('/start-cron', startCron);
  *       - Game Routes
  *     summary: Get all games
  *     description: |
- *       Get all games populated with user data for _createdBy if populate parameter is true, else user ID is returned for _createdBy.
+ *       Get all games populated with user data for _createdBy if `populate` parameter is true, else user ID is returned for _createdBy.
  *     parameters:
  *       - name: populate
  *         in: query
@@ -129,7 +129,7 @@ router.get('/games', getAllGames); // Get all games
 router.get('/games/:id', getGameById); // Get a game by Id
 /**
  * @swagger
- * /games/query:
+ * /query/games:
  *   get:
  *     tags:
  *       - Game Routes
