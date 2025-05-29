@@ -1,6 +1,6 @@
 import express, { Application } from 'express';
 import dotenvFlow from 'dotenv-flow';
-import { testConnection } from './repository/database';
+import { connect, disconnect, testConnection } from './repository/database';
 import { setupDocs } from './util/documentation';
 import routes from './routes';
 import cors from 'cors';
@@ -20,24 +20,46 @@ function setupCors() {
    }))
 }
 
-export function startServer() {
-   setupCors();
+export async function startServer() {
+   try {
+      await connect(); // Connect to the database
 
-   // JSON body parser
-   app.use(express.json());
+      setupCors();
 
-   // Binding routes to the app
-   app.use('/api', routes);
+      // JSON body parser
+      app.use(express.json());
 
-   // Setting up swagger documentation
-   setupDocs(app);
+      // Binding routes to the app
+      app.use('/api', routes);
 
-   // Testing connection to the database
-   testConnection();
+      // Setting up swagger documentation
+      setupDocs(app);
 
-   // Starting the server
-   const PORT: number = parseInt(process.env.PORT as string) || 4000;
-   app.listen(PORT, function () {
-      console.log('Server is running on port: ', PORT);
-   })
+      // Testing connection to the database
+      /* testConnection(); */
+
+      // Starting the server
+      const PORT: number = parseInt(process.env.PORT as string) || 4000;
+      app.listen(PORT, function () {
+         console.log('Server is running on port: ', PORT);
+      })
+   }
+   catch (err) {
+      console.error('Error starting server: ', err);
+      process.exit(1); // Exit the process with failure
+   }
 }
+
+// CTRL + C to stop the server
+process.on('SIGINT', async () => {
+   console.log('SIGINT received: closing database connection...');
+   await disconnect(); // Disconnect from the database
+   process.exit(0); // Exit the process with success
+});
+
+// When the server is stopped in production
+process.on('SIGTERM', async () => {
+   console.log('SIGTERM received: closing database connection...');
+   await disconnect();
+   process.exit(0);
+});
